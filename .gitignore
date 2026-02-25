@@ -1,2 +1,10 @@
-src/main/resources/linkedin_jobs.csv
-src/main/resources/linkedin_jobs.csv
+# Scala / Metals
+.metals/
+.bloop/
+.vscode/
+
+# Spark / build
+target/
+
+# Data
+*.csv
