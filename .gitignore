@@ -10,4 +10,7 @@ project/streams/
 .vscode/
 
 # Data
-*.csv
+*.csvtarget/
+src/main/resources/linkedin_jobs.csv
+src/main/resources/clean_linkedin_jobs/
+src/main/resources/cleaned_linkedin_jobs.csv
