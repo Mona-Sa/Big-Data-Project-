@@ -1,0 +1,343 @@
+
+============================================================
+  PART 1: EXPLORATORY DATA ANALYSIS (RAW DATA)
+============================================================
+
+----- (0) BASIC OVERVIEW -----
+Rows    : 123849
+Columns : 34
+Column names:
+application_type, application_url, applies, closed_time, company_id, company_name, compensation_type, currency, description, expiry, expiry_ts, fips, formatted_experience_level, formatted_work_type, job_id, job_posting_url, listed_time, listed_time_ts, location, max_salary, med_salary, min_salary, normalized_salary, original_listed_time, original_listed_time_ts, pay_period, posting_domain, remote_allowed, skills_desc, sponsored, title, views, work_type, zip_code
+
+----- (1) SCHEMA -----
+  job_id                              LongType
+  company_name                        StringType
+  title                               StringType
+  description                         StringType
+  max_salary                          DoubleType
+  pay_period                          StringType
+  location                            StringType
+  company_id                          DoubleType
+  views                               DoubleType
+  med_salary                          DoubleType
+  min_salary                          DoubleType
+  formatted_work_type                 StringType
+  applies                             DoubleType
+  original_listed_time                DoubleType
+  remote_allowed                      DoubleType
+  job_posting_url                     StringType
+  application_url                     StringType
+  application_type                    StringType
+  expiry                              DoubleType
+  closed_time                         DoubleType
+  formatted_experience_level          StringType
+  skills_desc                         StringType
+  listed_time                         DoubleType
+  posting_domain                      StringType
+  sponsored                           IntegerType
+  work_type                           StringType
+  currency                            StringType
+  compensation_type                   StringType
+  normalized_salary                   DoubleType
+  zip_code                            DoubleType
+  fips                                DoubleType
+  listed_time_ts                      TimestampType
+  original_listed_time_ts             TimestampType
+  expiry_ts                           TimestampType
+
+----- (2) MISSING VALUES PER COLUMN (RAW) -----
+  job_id                              missing=       0 (0.00%)
+  company_name                        missing=    1719 (1.39%)
+  title                               missing=       0 (0.00%)
+  description                         missing=       7 (0.01%)
+  max_salary                          missing=   94056 (75.94%)
+  pay_period                          missing=   87776 (70.87%)
+  location                            missing=       0 (0.00%)
+  company_id                          missing=    1717 (1.39%)
+  views                               missing=    1689 (1.36%)
+  med_salary                          missing=  117569 (94.93%)
+  min_salary                          missing=   94056 (75.94%)
+  formatted_work_type                 missing=       0 (0.00%)
+  applies                             missing=  100529 (81.17%)
+  original_listed_time                missing=       0 (0.00%)
+  remote_allowed                      missing=  108603 (87.69%)
+  job_posting_url                     missing=       0 (0.00%)
+  application_url                     missing=   36665 (29.60%)
+  application_type                    missing=       0 (0.00%)
+  expiry                              missing=       0 (0.00%)
+  closed_time                         missing=  122776 (99.13%)
+  formatted_experience_level          missing=   29409 (23.75%)
+  skills_desc                         missing=  121410 (98.03%)
+  listed_time                         missing=       0 (0.00%)
+  posting_domain                      missing=   39968 (32.27%)
+  sponsored                           missing=       0 (0.00%)
+  work_type                           missing=       0 (0.00%)
+  currency                            missing=   87776 (70.87%)
+  compensation_type                   missing=   87776 (70.87%)
+  normalized_salary                   missing=   87776 (70.87%)
+  zip_code                            missing=   20872 (16.85%)
+  fips                                missing=   27415 (22.14%)
+  listed_time_ts                      missing=       0 (0.00%)
+  original_listed_time_ts             missing=       0 (0.00%)
+  expiry_ts                           missing=       0 (0.00%)
+
+----- (3) DUPLICATES CHECK -----
+  Distinct job_id     : 123849
+  Duplicate job_id    : 0
+
+----- (4) TOP VALUES: formatted_work_type -----
+  Full-time                      98,814
+  Contract                       12,117
+  Part-time                      9,696
+  Temporary                      1,190
+  Internship                     983
+  Volunteer                      562
+  Other                          487
+
+----- (4) TOP VALUES: formatted_experience_level -----
+  Mid-Senior level               41,489
+  Entry level                    36,708
+  null                           29,409
+  Associate                      9,826
+  Director                       3,746
+  Internship                     1,449
+  Executive                      1,222
+
+----- (4) TOP VALUES: pay_period -----
+  null                           87,776
+  YEARLY                         20,628
+  HOURLY                         14,741
+  MONTHLY                        518
+  WEEKLY                         177
+  BIWEEKLY                       9
+
+----- (4) TOP VALUES: currency -----
+  null                           87,776
+  USD                            36,058
+  EUR                            6
+  CAD                            3
+  GBP                            2
+  AUD                            2
+  BBD                            2
+
+----- (4) TOP VALUES: application_type -----
+  OffsiteApply                   84,607
+  ComplexOnsiteApply             31,049
+  SimpleOnsiteApply              8,192
+  UnknownApply                   1
+
+----- (4) TOP VALUES: work_type -----
+  FULL_TIME                      98,814
+  CONTRACT                       12,117
+  PART_TIME                      9,696
+  TEMPORARY                      1,190
+  INTERNSHIP                     983
+  VOLUNTEER                      562
+  OTHER                          487
+
+----- (5) TOP 20 LOCATIONS -----
+  United States                       8,125
+  New York, NY                        2,756
+  Chicago, IL                         1,834
+  Houston, TX                         1,762
+  Dallas, TX                          1,383
+  Atlanta, GA                         1,363
+  Boston, MA                          1,176
+  Austin, TX                          1,083
+  Charlotte, NC                       1,075
+  Phoenix, AZ                         1,059
+  Washington, DC                      985
+  Los Angeles, CA                     972
+  San Francisco, CA                   884
+  New York City Metropolitan Area     837
+  Seattle, WA                         818
+  San Diego, CA                       790
+  Denver, CO                          787
+  Philadelphia, PA                    711
+  Tampa, FL                           659
+  Miami, FL                           643
+
+----- (6) TOP 20 COMPANIES -----
+  null                                     1,719
+  Liberty Healthcare and Rehabilitation Services 1,108
+  The Job Network                          1,003
+  J. Galt                                  604
+  TEKsystems                               529
+  Lowe's Companies, Inc.                   527
+  Ingersoll Rand                           517
+  Capital One                              496
+  Cogent Communications                    476
+  Insight Global                           418
+  Dice                                     415
+  Wells Fargo                              388
+  Circle K                                 381
+  Amazon                                   343
+  Macy's                                   333
+  Millennium Recruiting, Inc.              329
+  Solomon Page                             326
+  Apex Systems                             325
+  VolunteerMatch                           322
+  CareerStaff Unlimited                    319
+
+----- (7) TOP 20 JOB TITLES -----
+  Sales Manager                            673
+  Customer Service Representative          373
+  Project Manager                          354
+  Administrative Assistant                 254
+  Senior Accountant                        238
+  Executive Assistant                      228
+  Salesperson                              211
+  Registered Nurse                         210
+  Receptionist                             204
+  Staff Accountant                         200
+  Account Executive                        195
+  Retail Sales Associate                   190
+  Sales Associate                          189
+  Software Engineer                        181
+  Controller                               175
+  Account Manager                          171
+  Store Manager                            166
+  Senior Software Engineer                 162
+  ASSISTANT STORE MANAGER                  161
+  Assistant Manager                        161
+
+----- (8) NUMERIC SUMMARY -----
+  min_salary           count=29793  mean=64910.85  stddev=495973.79  min=1.0  max=8.5E7
+  max_salary           count=29793  mean=91939.42  stddev=701110.14  min=1.0  max=1.2E8
+  normalized_salary    count=36073  mean=205327.04  stddev=5097626.76  min=0.0  max=5.356E8
+  views                count=122160  mean=14.62  stddev=85.9  min=1.0  max=9975.0
+  applies              count=23320  mean=10.59  stddev=29.05  min=1.0  max=967.0
+
+----- (9) SALARY SANITY CHECK -----
+  Rows where min_salary > max_salary: 0
+
+----- (10) POSTS BY MONTH -----
+  2024-03      1
+  2024-04      123,848
+
+----- (11) REMOTE ALLOWED DISTRIBUTION -----
+  null       108,603
+  1.0        15,246
+
+----- (12) AVG SALARY BY WORK TYPE -----
+  Full-time       rows= 29133  avg=220118.65  max=5.356E8
+  Contract        rows=  3849  avg=101242.28  max=5314400.0
+  Part-time       rows=  2304  avg=90624.8  max=6.4896E7
+  Temporary       rows=   394  avg=72514.57  max=468000.0
+  Internship      rows=   247  avg=1440963.93  max=4.7179392E7
+  Other           rows=   138  avg=79242.12  max=520000.0
+  Volunteer       rows=     8  avg=17545.63  max=50000.0
+
+============================================================
+  PART 2: PREPROCESSING PIPELINE
+============================================================
+
+----- STEP 1: DROP HIGH-NULL COLUMNS -----
+  Dropping: closed_time (99.13%), skills_desc (98.03%), med_salary (94.93%)
+  Columns remaining: 31
+
+----- STEP 2: DROP ROWS WITH NULL job_id OR title -----
+  Rows after: 123849
+
+----- STEP 3: FILL MISSING CATEGORICAL VALUES -----
+  Filled: formatted_experience_level, formatted_work_type → 'Unknown'
+
+----- STEP 4: FILL MISSING NUMERIC VALUES -----
+  Filled: remote_allowed, views, applies → 0.0
+
+----- STEP 5: REMOVE SALARY OUTLIERS -----
+  Keeping: normalized_salary between 10,000 and 1,000,000 (or null)
+  Rows after: 123394
+
+----- STEP 6: FIX SALARY ERRORS (min > max) -----
+  Rows after: 123394
+
+----- STEP 7: DEDUPLICATE BY job_id -----
+  Rows after: 123394
+
+----- CLEANING SUMMARY -----
+  Rows before   : 123,849
+  Rows after    : 123,394
+  Rows removed  : 455
+  Columns before: 34
+  Columns after : 31
+
+----- MISSING VALUES AFTER CLEANING -----
+  company_name                        missing=    1709 (1.38%)
+  description                         missing=       7 (0.01%)
+  max_salary                          missing=   94012 (76.19%)
+  pay_period                          missing=   87776 (71.13%)
+  company_id                          missing=    1707 (1.38%)
+  min_salary                          missing=   94012 (76.19%)
+  application_url                     missing=   36334 (29.45%)
+  posting_domain                      missing=   39612 (32.10%)
+  currency                            missing=   87776 (71.13%)
+  compensation_type                   missing=   87776 (71.13%)
+  normalized_salary                   missing=   87776 (71.13%)
+  zip_code                            missing=   20758 (16.82%)
+  fips                                missing=   27278 (22.11%)
+
+----- SAMPLE CLEAN ROWS (10) -----
+  [91700727] Economic Development and Planning Intern | Downtown Raleigh Alliance | Raleigh, NC | Internship | Unknown | salary=35360.0 | remote=0.0
+  [3379554375] Finishing Editor | Nebraska Public Media | Lincoln, Nebraska Me | Full-time | Unknown | salary=NULL | remote=0.0
+  [3884431655] Universal Banker  | Harmony Bank | Garland, TX | Part-time | Unknown | salary=NULL | remote=0.0
+  [3884434169] Sales Development Representative | Phreesia | Washington DC-Baltim | Full-time | Entry level | salary=62500.0 | remote=1.0
+  [3884436753] Bagger | Southeastern Grocers | St Augustine, FL | Full-time | Entry level | salary=NULL | remote=0.0
+  [3884437919] Vetco Veterinary Assistant P/T | Petco | Foxborough (Foxboro) | Part-time | Entry level | salary=NULL | remote=0.0
+  [3884444185] Electrical Foreman - Special Projects | Weifield Group Contractin | Killeen, TX | Full-time | Entry level | salary=NULL | remote=0.0
+  [3884829058] Supervisor | Capstone Logistics, LLC | Cleveland, OH | Full-time | Mid-Senior level | salary=NULL | remote=0.0
+  [3884833059] Complex Inforce Processor | Equitable | Syracuse, NY | Full-time | Entry level | salary=53000.0 | remote=0.0
+  [3884838245] LPN / Licensed Practical Nurse Home Heal | Ascension at Home | Indianapolis, IN | Full-time | Entry level | salary=NULL | remote=0.0
+
+----- SALARY STATS AFTER CLEANING -----
+  Count : 35618
+  Mean  : 96592.35
+  Min   : 10000.0
+  Max   : 960000.0
+
+----- EXPERIENCE LEVEL AFTER CLEANING -----
+  Mid-Senior level          41,335
+  Entry level               36,620
+  Unknown                   29,297
+  Associate                 9,743
+  Director                  3,742
+  Internship                1,436
+  Executive                 1,221
+
+----- REMOTE DISTRIBUTION AFTER CLEANING -----
+  0.0        108,225
+  1.0        15,169
+        missing=   39612 (32.10%)
+[info]   currency                            missing=   87776 (71.13%)
+[info]   compensation_type                   missing=   87776 (71.13%)
+[info]   normalized_salary                   missing=   87776 (71.13%)
+[info]   zip_code                            missing=   20758 (16.82%)
+[info]   fips                                missing=   27278 (22.11%)
+[info] ----- SAMPLE CLEAN ROWS (10) -----
+[info]   [91700727] Economic Development and Planning Intern | Downtown Raleigh Alliance | Raleigh, NC | Internship | Unknown | salary=35360.0 | remote=0.0
+[info]   [3379554375] Finishing Editor | Nebraska Public Media | Lincoln, Nebraska Me | Full-time | Unknown | salary=NULL | remote=0.0
+[info]   [3884431655] Universal Banker  | Harmony Bank | Garland, TX | Part-time | Unknown | salary=NULL | remote=0.0
+[info]   [3884434169] Sales Development Representative | Phreesia | Washington DC-Baltim | Full-time | Entry level | salary=62500.0 | remote=1.0
+[info]   [3884436753] Bagger | Southeastern Grocers | St Augustine, FL | Full-time | Entry level | salary=NULL | remote=0.0
+[info]   [3884437919] Vetco Veterinary Assistant P/T | Petco | Foxborough (Foxboro) | Part-time | Entry level | salary=NULL | remote=0.0
+[info]   [3884444185] Electrical Foreman - Special Projects | Weifield Group Contractin | Killeen, TX | Full-time | Entry level | salary=NULL | remote=0.0
+[info]   [3884829058] Supervisor | Capstone Logistics, LLC | Cleveland, OH | Full-time | Mid-Senior level | salary=NULL | remote=0.0
+[info]   [3884833059] Complex Inforce Processor | Equitable | Syracuse, NY | Full-time | Entry level | salary=53000.0 | remote=0.0
+[info]   [3884838245] LPN / Licensed Practical Nurse Home Heal | Ascension at Home | Indianapolis, IN | Full-time | Entry level | salary=NULL | remote=0.0
+[info] ----- SALARY STATS AFTER CLEANING -----
+[info]   Count : 35618
+[info]   Mean  : 96592.35
+[info]   Min   : 10000.0
+[info]   Max   : 960000.0
+[info] ----- EXPERIENCE LEVEL AFTER CLEANING -----
+[info]   Mid-Senior level          41,335
+[info]   Entry level               36,620
+[info]   Unknown                   29,297
+[info]   Associate                 9,743
+[info]   Director                  3,742
+[info]   Internship                1,436
+[info]   Executive                 1,221
+[info] ----- REMOTE DISTRIBUTION AFTER CLEANING -----
+[info]   0.0        108,225
+[info]   1.0        15,169
+[info]  Output saved to: /Users/ramaalomair/Documents/GitHub/Big-Data-Project-/full_pipeline_output.txt
