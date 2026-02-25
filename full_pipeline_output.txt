@@ -240,10 +240,10 @@ application_type, application_url, applies, closed_time, company_id, company_nam
   Rows after: 123849
 
 ----- STEP 3: FILL MISSING CATEGORICAL VALUES -----
-  Filled: formatted_experience_level, formatted_work_type → 'Unknown'
+  Filled: formatted_experience_level, formatted_work_type ? 'Unknown'
 
 ----- STEP 4: FILL MISSING NUMERIC VALUES -----
-  Filled: remote_allowed, views, applies → 0.0
+  Filled: remote_allowed, views, applies ? 0.0
 
 ----- STEP 5: REMOVE SALARY OUTLIERS -----
   Keeping: normalized_salary between 10,000 and 1,000,000 (or null)
@@ -307,37 +307,3 @@ application_type, application_url, applies, closed_time, company_id, company_nam
 ----- REMOTE DISTRIBUTION AFTER CLEANING -----
   0.0        108,225
   1.0        15,169
-        missing=   39612 (32.10%)
-[info]   currency                            missing=   87776 (71.13%)
-[info]   compensation_type                   missing=   87776 (71.13%)
-[info]   normalized_salary                   missing=   87776 (71.13%)
-[info]   zip_code                            missing=   20758 (16.82%)
-[info]   fips                                missing=   27278 (22.11%)
-[info] ----- SAMPLE CLEAN ROWS (10) -----
-[info]   [91700727] Economic Development and Planning Intern | Downtown Raleigh Alliance | Raleigh, NC | Internship | Unknown | salary=35360.0 | remote=0.0
-[info]   [3379554375] Finishing Editor | Nebraska Public Media | Lincoln, Nebraska Me | Full-time | Unknown | salary=NULL | remote=0.0
-[info]   [3884431655] Universal Banker  | Harmony Bank | Garland, TX | Part-time | Unknown | salary=NULL | remote=0.0
-[info]   [3884434169] Sales Development Representative | Phreesia | Washington DC-Baltim | Full-time | Entry level | salary=62500.0 | remote=1.0
-[info]   [3884436753] Bagger | Southeastern Grocers | St Augustine, FL | Full-time | Entry level | salary=NULL | remote=0.0
-[info]   [3884437919] Vetco Veterinary Assistant P/T | Petco | Foxborough (Foxboro) | Part-time | Entry level | salary=NULL | remote=0.0
-[info]   [3884444185] Electrical Foreman - Special Projects | Weifield Group Contractin | Killeen, TX | Full-time | Entry level | salary=NULL | remote=0.0
-[info]   [3884829058] Supervisor | Capstone Logistics, LLC | Cleveland, OH | Full-time | Mid-Senior level | salary=NULL | remote=0.0
-[info]   [3884833059] Complex Inforce Processor | Equitable | Syracuse, NY | Full-time | Entry level | salary=53000.0 | remote=0.0
-[info]   [3884838245] LPN / Licensed Practical Nurse Home Heal | Ascension at Home | Indianapolis, IN | Full-time | Entry level | salary=NULL | remote=0.0
-[info] ----- SALARY STATS AFTER CLEANING -----
-[info]   Count : 35618
-[info]   Mean  : 96592.35
-[info]   Min   : 10000.0
-[info]   Max   : 960000.0
-[info] ----- EXPERIENCE LEVEL AFTER CLEANING -----
-[info]   Mid-Senior level          41,335
-[info]   Entry level               36,620
-[info]   Unknown                   29,297
-[info]   Associate                 9,743
-[info]   Director                  3,742
-[info]   Internship                1,436
-[info]   Executive                 1,221
-[info] ----- REMOTE DISTRIBUTION AFTER CLEANING -----
-[info]   0.0        108,225
-[info]   1.0        15,169
-[info]  Output saved to: /Users/ramaalomair/Documents/GitHub/Big-Data-Project-/full_pipeline_output.txt

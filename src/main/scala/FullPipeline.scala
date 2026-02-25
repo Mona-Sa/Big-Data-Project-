@@ -13,9 +13,9 @@ object FullPipeline {
 
     spark.sparkContext.setLogLevel("ERROR")
 
-    val filePath  = "/Users/ramaalomair/Documents/GitHub/Big-Data-Project-/src/main/resources/linkedin_jobs.csv"
-    val outputPath = "/Users/ramaalomair/Documents/GitHub/Big-Data-Project-/full_pipeline_output.txt"
-
+    val filePath = "src/main/resources/linkedin_jobs.csv"
+    val outputPath = "full_pipeline_output.txt"
+    
     val fw = new BufferedWriter(new FileWriter(outputPath))
     def log(line: String = ""): Unit = { println(line); fw.write(line + "\n") }
     def sep(title: String): Unit = {
