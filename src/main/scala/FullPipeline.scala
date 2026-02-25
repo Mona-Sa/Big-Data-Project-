@@ -1,7 +1,6 @@
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
-import java.io.{FileWriter, BufferedWriter, File}
-import java.nio.file.{Files, Paths, StandardCopyOption}
+import java.io.{FileWriter, BufferedWriter}
 
 object FullPipeline {
 
@@ -14,11 +13,9 @@ object FullPipeline {
 
     spark.sparkContext.setLogLevel("ERROR")
 
-    val filePath   = "src/main/resources/linkedin_jobs.csv"
+    val filePath = "src/main/resources/linkedin_jobs.csv"
     val outputPath = "full_pipeline_output.txt"
-    val csvTempDir = "src/main/resources/cleaned_linkedin_jobs_temp"
-    val csvFinal   = "src/main/resources/cleaned_linkedin_jobs.csv"
-
+    
     val fw = new BufferedWriter(new FileWriter(outputPath))
     def log(line: String = ""): Unit = { println(line); fw.write(line + "\n") }
     def sep(title: String): Unit = {
@@ -39,9 +36,9 @@ object FullPipeline {
       .option("multiLine", "true")
       .option("escape", "\"")
       .csv(filePath)
-      .withColumn("listed_time_ts",          to_timestamp(from_unixtime(col("listed_time") / 1000)))
+      .withColumn("listed_time_ts",      to_timestamp(from_unixtime(col("listed_time") / 1000)))
       .withColumn("original_listed_time_ts", to_timestamp(from_unixtime(col("original_listed_time") / 1000)))
-      .withColumn("expiry_ts",               to_timestamp(from_unixtime(col("expiry") / 1000)))
+      .withColumn("expiry_ts",           to_timestamp(from_unixtime(col("expiry") / 1000)))
 
     var rawCount = dfRaw.count()
 
@@ -157,24 +154,13 @@ object FullPipeline {
 
     // Step 3: Fill missing categorical values with "Unknown"
     log("\n----- STEP 3: FILL MISSING CATEGORICAL VALUES -----")
-    val dfStep3 = dfStep2
-      .na.fill("Unknown", Seq(
-        "formatted_experience_level",
-        "formatted_work_type",
-        "company_name",
-        "pay_period",
-        "currency",
-        "compensation_type",
-        "application_url",
-        "posting_domain"
-      ))
-    log("  Filled: formatted_experience_level, formatted_work_type, company_name,")
-    log("          pay_period, currency, compensation_type, application_url, posting_domain → 'Unknown'")
+    val dfStep3 = dfStep2.na.fill("Unknown", Seq("formatted_experience_level", "formatted_work_type"))
+    log("  Filled: formatted_experience_level, formatted_work_type → 'Unknown'")
 
     // Step 4: Fill missing numeric values with 0
     log("\n----- STEP 4: FILL MISSING NUMERIC VALUES -----")
-    val dfStep4 = dfStep3.na.fill(0.0, Seq("remote_allowed", "views", "applies", "zip_code", "fips", "company_id"))
-    log("  Filled: remote_allowed, views, applies, zip_code, fips, company_id → 0.0")
+    val dfStep4 = dfStep3.na.fill(0.0, Seq("remote_allowed", "views", "applies"))
+    log("  Filled: remote_allowed, views, applies → 0.0")
 
     // Step 5: Remove salary outliers (keep 10k–1M or null)
     log("\n----- STEP 5: REMOVE SALARY OUTLIERS -----")
@@ -185,34 +171,16 @@ object FullPipeline {
     )
     log(s"  Rows after: ${dfStep5.count()}")
 
-    // Step 6: Fill missing salary values with median
-    log("\n----- STEP 6: FILL MISSING SALARY VALUES WITH MEDIAN -----")
-    val medNormalized = dfStep5.filter(col("normalized_salary").isNotNull)
-      .stat.approxQuantile("normalized_salary", Array(0.5), 0.001)(0)
-    val medMin = dfStep5.filter(col("min_salary").isNotNull)
-      .stat.approxQuantile("min_salary", Array(0.5), 0.001)(0)
-    val medMax = dfStep5.filter(col("max_salary").isNotNull)
-      .stat.approxQuantile("max_salary", Array(0.5), 0.001)(0)
-
-    val dfStep6a = dfStep5
-      .withColumn("normalized_salary", when(col("normalized_salary").isNull, medNormalized).otherwise(col("normalized_salary")))
-      .withColumn("min_salary",        when(col("min_salary").isNull, medMin).otherwise(col("min_salary")))
-      .withColumn("max_salary",        when(col("max_salary").isNull, medMax).otherwise(col("max_salary")))
-
-    log(f"  normalized_salary median = $medNormalized%.2f")
-    log(f"  min_salary median        = $medMin%.2f")
-    log(f"  max_salary median        = $medMax%.2f")
-
-    // Step 7: Fix salary errors (min > max)
-    log("\n----- STEP 7: FIX SALARY ERRORS (min > max) -----")
-    val dfStep6 = dfStep6a.filter(
+    // Step 6: Remove rows where min_salary > max_salary
+    log("\n----- STEP 6: FIX SALARY ERRORS (min > max) -----")
+    val dfStep6 = dfStep5.filter(
       col("min_salary").isNull || col("max_salary").isNull ||
       col("min_salary") <= col("max_salary")
     )
     log(s"  Rows after: ${dfStep6.count()}")
 
-    // Step 8: Deduplicate by job_id
-    log("\n----- STEP 8: DEDUPLICATE BY job_id -----")
+    // Step 7: Deduplicate by job_id
+    log("\n----- STEP 7: DEDUPLICATE BY job_id -----")
     val dfClean = dfStep6.dropDuplicates("job_id")
     dfClean.cache()
     val cleanCount = dfClean.count()
@@ -228,16 +196,13 @@ object FullPipeline {
 
     // ── Missing Values After Cleaning ─────────────────────────────
     log("\n----- MISSING VALUES AFTER CLEANING -----")
-    var anyMissing = false
     dfClean.columns.foreach { c =>
       val missing = dfClean.filter(col(c).isNull || (col(c).cast("string") === "")).count()
       if (missing > 0) {
-        anyMissing = true
         val pct = (missing.toDouble / cleanCount) * 100.0
         log(f"  $c%-35s missing=${missing}%8d (${pct}%.2f%%)")
       }
     }
-    if (!anyMissing) log("  No missing values remaining ✓")
 
     // ── Sample Clean Data ─────────────────────────────────────────
     log("\n----- SAMPLE CLEAN ROWS (10) -----")
@@ -276,37 +241,6 @@ object FullPipeline {
     dfClean.groupBy("remote_allowed").count()
       .orderBy(desc("count")).collect()
       .foreach(r => log(f"  ${String.valueOf(r.get(0))}%-10s ${r.getLong(1)}%,d"))
-
-    // ══════════════════════════════════════════════════════════════
-    // PART 3 — SAVE CLEAN DATA TO CSV
-    // ══════════════════════════════════════════════════════════════
-    sep("PART 3: SAVE CLEAN DATA TO CSV")
-
-    log(s"\n  Saving clean data to: $csvFinal")
-
-    // حفظ في فولدر مؤقت
-    dfClean
-      .withColumn("job_id", col("job_id").cast("string"))
-      .coalesce(1)
-      .write
-      .mode("overwrite")
-      .option("header", "true")
-      .option("quote", "\"")
-      .option("escape", "\"")
-      .option("quoteAll", "true")
-      .csv(csvTempDir)
-
-    // إعادة تسمية الملف
-    val tempDir = new File(csvTempDir)
-    val partFile = tempDir.listFiles().filter(_.getName.startsWith("part-00000")).head
-    Files.move(partFile.toPath, Paths.get(csvFinal), StandardCopyOption.REPLACE_EXISTING)
-
-    // حذف الفولدر المؤقت
-    tempDir.listFiles().foreach(_.delete())
-    tempDir.delete()
-
-    log(s"  Done! CSV saved as: $csvFinal")
-    log(s"  Rows saved: $cleanCount")
 
     fw.close()
     println(s"\n Output saved to: $outputPath")
