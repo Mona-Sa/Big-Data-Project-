@@ -1,10 +1,13 @@
-# Scala / Metals
+# Scala / SBT
+target/
+project/target/
+project/project/
+project/streams/
+
+# Metals / IDE
 .metals/
 .bloop/
 .vscode/
-
-# Spark / build
-target/
 
 # Data
 *.csv

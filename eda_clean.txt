@@ -1,0 +1,392 @@
+[info] welcome to sbt 1.12.0 (Oracle Corporation Java 21.0.10)
+[info] loading project definition from /Users/ramaalomair/Documents/GitHub/Big-Data-Project-/project
+[info] loading settings for project root from build.sbt...
+[info] set current project to citibike-bigdata (in build file:/Users/ramaalomair/Documents/GitHub/Big-Data-Project-/)
+[info] running (fork) LinkedInEDA 
+[info] ===== (0) BASIC OVERVIEW =====
+[info] Rows: 123849
+[info] Columns: 31
+[info] Column names:
+[info] application_type, application_url, applies, closed_time, company_id, company_name, compensation_type, currency, description, expiry, fips, formatted_experience_level, formatted_work_type, job_id, job_posting_url, listed_time, location, max_salary, med_salary, min_salary, normalized_salary, original_listed_time, pay_period, posting_domain, remote_allowed, skills_desc, sponsored, title, views, work_type, zip_code
+[info] ===== (1) SCHEMA =====
+[info] root
+[info]  |-- job_id: long (nullable = true)
+[info]  |-- company_name: string (nullable = true)
+[info]  |-- title: string (nullable = true)
+[info]  |-- description: string (nullable = true)
+[info]  |-- max_salary: double (nullable = true)
+[info]  |-- pay_period: string (nullable = true)
+[info]  |-- location: string (nullable = true)
+[info]  |-- company_id: double (nullable = true)
+[info]  |-- views: double (nullable = true)
+[info]  |-- med_salary: double (nullable = true)
+[info]  |-- min_salary: double (nullable = true)
+[info]  |-- formatted_work_type: string (nullable = true)
+[info]  |-- applies: double (nullable = true)
+[info]  |-- original_listed_time: double (nullable = true)
+[info]  |-- remote_allowed: double (nullable = true)
+[info]  |-- job_posting_url: string (nullable = true)
+[info]  |-- application_url: string (nullable = true)
+[info]  |-- application_type: string (nullable = true)
+[info]  |-- expiry: double (nullable = true)
+[info]  |-- closed_time: double (nullable = true)
+[info]  |-- formatted_experience_level: string (nullable = true)
+[info]  |-- skills_desc: string (nullable = true)
+[info]  |-- listed_time: double (nullable = true)
+[info]  |-- posting_domain: string (nullable = true)
+[info]  |-- sponsored: integer (nullable = true)
+[info]  |-- work_type: string (nullable = true)
+[info]  |-- currency: string (nullable = true)
+[info]  |-- compensation_type: string (nullable = true)
+[info]  |-- normalized_salary: double (nullable = true)
+[info]  |-- zip_code: double (nullable = true)
+[info]  |-- fips: double (nullable = true)
+[info] ===== (2) SAMPLE ROWS =====
+[info] +---------+-------------------------+--------------------------------------------------------+-----------------+-------------------+----------+----------+----------+--------+----------+---------+
+[info] |job_id   |company_name             |title                                                   |location         |formatted_work_type|pay_period|min_salary|max_salary|currency|work_type |sponsored|
+[info] +---------+-------------------------+--------------------------------------------------------+-----------------+-------------------+----------+----------+----------+--------+----------+---------+
+[info] |921716   |Corcoran Sawyer Smith    |Marketing Coordinator                                   |Princeton, NJ    |Full-time          |HOURLY    |17.0      |20.0      |USD     |FULL_TIME |0        |
+[info] |1829192  |NULL                     |Mental Health Therapist/Counselor                       |Fort Collins, CO |Full-time          |HOURLY    |30.0      |50.0      |USD     |FULL_TIME |0        |
+[info] |10998357 |The National Exemplar    |Assitant Restaurant Manager                             |Cincinnati, OH   |Full-time          |YEARLY    |45000.0   |65000.0   |USD     |FULL_TIME |0        |
+[info] |23221523 |Abrams Fensterman, LLP   |Senior Elder Law / Trusts and Estates Associate Attorney|New Hyde Park, NY|Full-time          |YEARLY    |140000.0  |175000.0  |USD     |FULL_TIME |0        |
+[info] |35982263 |NULL                     | Service Technician                                     |Burlington, IA   |Full-time          |YEARLY    |60000.0   |80000.0   |USD     |FULL_TIME |0        |
+[info] |91700727 |Downtown Raleigh Alliance|Economic Development and Planning Intern                |Raleigh, NC      |Internship         |HOURLY    |14.0      |20.0      |USD     |INTERNSHIP|0        |
+[info] |103254301|Raw Cereal               |Producer                                                |United States    |Contract           |YEARLY    |60000.0   |300000.0  |USD     |CONTRACT  |0        |
+[info] |112576855|NULL                     |Building Engineer                                       |San Francisco, CA|Full-time          |YEARLY    |90000.0   |120000.0  |USD     |FULL_TIME |0        |
+[info] |1218575  |Children's Nebraska      |Respiratory Therapist                                   |Omaha, NE        |Full-time          |NULL      |NULL      |NULL      |NULL    |FULL_TIME |0        |
+[info] |2264355  |Bay West Church          |Worship Leader                                          |Palm Bay, FL     |Part-time          |MONTHLY   |NULL      |NULL      |USD     |PART_TIME |0        |
+[info] +---------+-------------------------+--------------------------------------------------------+-----------------+-------------------+----------+----------+----------+--------+----------+---------+
+[info] only showing top 10 rows
+[info] ===== (3) MISSING VALUES PER COLUMN =====
+[info] job_id                       missing=       0 (0.00%)
+[info] company_name                 missing=    1719 (1.39%)
+[info] title                        missing=       0 (0.00%)
+[info] description                  missing=       7 (0.01%)
+[info] max_salary                   missing=   94056 (75.94%)
+[info] pay_period                   missing=   87776 (70.87%)
+[info] location                     missing=       0 (0.00%)
+[info] company_id                   missing=    1717 (1.39%)
+[info] views                        missing=    1689 (1.36%)
+[info] med_salary                   missing=  117569 (94.93%)
+[info] min_salary                   missing=   94056 (75.94%)
+[info] formatted_work_type          missing=       0 (0.00%)
+[info] applies                      missing=  100529 (81.17%)
+[info] original_listed_time         missing=       0 (0.00%)
+[info] remote_allowed               missing=  108603 (87.69%)
+[info] job_posting_url              missing=       0 (0.00%)
+[info] application_url              missing=   36665 (29.60%)
+[info] application_type             missing=       0 (0.00%)
+[info] expiry                       missing=       0 (0.00%)
+[info] closed_time                  missing=  122776 (99.13%)
+[info] formatted_experience_level   missing=   29409 (23.75%)
+[info] skills_desc                  missing=  121410 (98.03%)
+[info] listed_time                  missing=       0 (0.00%)
+[info] posting_domain               missing=   39968 (32.27%)
+[info] sponsored                    missing=       0 (0.00%)
+[info] work_type                    missing=       0 (0.00%)
+[info] currency                     missing=   87776 (70.87%)
+[info] compensation_type            missing=   87776 (70.87%)
+[info] normalized_salary            missing=   87776 (70.87%)
+[info] zip_code                     missing=   20872 (16.85%)
+[info] fips                         missing=   27415 (22.14%)
+[info] listed_time_ts               missing=       0 (0.00%)
+[info] original_listed_time_ts      missing=       0 (0.00%)
+[info] expiry_ts                    missing=       0 (0.00%)
+[info] ===== (4) DUPLICATES CHECK =====
+[info] Distinct job_id: 123849
+[info] Duplicate job_id rows: 0
+[info] ===== TOP 15: formatted_work_type =====
+[info] +-------------------+-----+
+[info] |formatted_work_type|count|
+[info] +-------------------+-----+
+[info] |Full-time          |98814|
+[info] |Contract           |12117|
+[info] |Part-time          |9696 |
+[info] |Temporary          |1190 |
+[info] |Internship         |983  |
+[info] |Volunteer          |562  |
+[info] |Other              |487  |
+[info] +-------------------+-----+
+[info] ===== TOP 15: work_type =====
+[info] +----------+-----+
+[info] |work_type |count|
+[info] +----------+-----+
+[info] |FULL_TIME |98814|
+[info] |CONTRACT  |12117|
+[info] |PART_TIME |9696 |
+[info] |TEMPORARY |1190 |
+[info] |INTERNSHIP|983  |
+[info] |VOLUNTEER |562  |
+[info] |OTHER     |487  |
+[info] +----------+-----+
+[info] ===== TOP 15: pay_period =====
+[info] +----------+-----+
+[info] |pay_period|count|
+[info] +----------+-----+
+[info] |NULL      |87776|
+[info] |YEARLY    |20628|
+[info] |HOURLY    |14741|
+[info] |MONTHLY   |518  |
+[info] |WEEKLY    |177  |
+[info] |BIWEEKLY  |9    |
+[info] +----------+-----+
+[info] ===== TOP 15: currency =====
+[info] +--------+-----+
+[info] |currency|count|
+[info] +--------+-----+
+[info] |NULL    |87776|
+[info] |USD     |36058|
+[info] |EUR     |6    |
+[info] |CAD     |3    |
+[info] |GBP     |2    |
+[info] |AUD     |2    |
+[info] |BBD     |2    |
+[info] +--------+-----+
+[info] ===== TOP 15: application_type =====
+[info] +------------------+-----+
+[info] |application_type  |count|
+[info] +------------------+-----+
+[info] |OffsiteApply      |84607|
+[info] |ComplexOnsiteApply|31049|
+[info] |SimpleOnsiteApply |8192 |
+[info] |UnknownApply      |1    |
+[info] +------------------+-----+
+[info] ===== TOP 15: formatted_experience_level =====
+[info] +--------------------------+-----+
+[info] |formatted_experience_level|count|
+[info] +--------------------------+-----+
+[info] |Mid-Senior level          |41489|
+[info] |Entry level               |36708|
+[info] |NULL                      |29409|
+[info] |Associate                 |9826 |
+[info] |Director                  |3746 |
+[info] |Internship                |1449 |
+[info] |Executive                 |1222 |
+[info] +--------------------------+-----+
+[info] ===== TOP 15: posting_domain =====
+[info] +------------------------+-----+
+[info] |posting_domain          |count|
+[info] +------------------------+-----+
+[info] |NULL                    |39968|
+[info] |www.click2apply.net     |3811 |
+[info] |click.appcast.io        |2255 |
+[info] |jsv3.recruitics.com     |1921 |
+[info] |jobs.smartrecruiters.com|1557 |
+[info] |boards.greenhouse.io    |1493 |
+[info] |rr.jobsyn.org           |1202 |
+[info] |recruiting.ultipro.com  |1175 |
+[info] |recruiting.adp.com      |809  |
+[info] |sjobs.brassring.com     |785  |
+[info] |dsp.prng.co             |766  |
+[info] |recruiting2.ultipro.com |729  |
+[info] |jobs.jobvite.com        |630  |
+[info] |jobs.trinity-health.org |599  |
+[info] |www.aplitrak.com        |563  |
+[info] +------------------------+-----+
+[info] only showing top 15 rows
+[info] ===== TOP 5: sponsored =====
+[info] +---------+------+
+[info] |sponsored|count |
+[info] +---------+------+
+[info] |0        |123849|
+[info] +---------+------+
+[info] ===== (5) TOP LOCATIONS =====
+[info] +-------------------------------+-----+
+[info] |location                       |count|
+[info] +-------------------------------+-----+
+[info] |United States                  |8125 |
+[info] |New York, NY                   |2756 |
+[info] |Chicago, IL                    |1834 |
+[info] |Houston, TX                    |1762 |
+[info] |Dallas, TX                     |1383 |
+[info] |Atlanta, GA                    |1363 |
+[info] |Boston, MA                     |1176 |
+[info] |Austin, TX                     |1083 |
+[info] |Charlotte, NC                  |1075 |
+[info] |Phoenix, AZ                    |1059 |
+[info] |Washington, DC                 |985  |
+[info] |Los Angeles, CA                |972  |
+[info] |San Francisco, CA              |884  |
+[info] |New York City Metropolitan Area|837  |
+[info] |Seattle, WA                    |818  |
+[info] |San Diego, CA                  |790  |
+[info] |Denver, CO                     |787  |
+[info] |Philadelphia, PA               |711  |
+[info] |Tampa, FL                      |659  |
+[info] |Miami, FL                      |643  |
+[info] +-------------------------------+-----+
+[info] only showing top 20 rows
+[info] ===== (6) TOP COMPANIES =====
+[info] +----------------------------------------------+-----+
+[info] |company_name                                  |count|
+[info] +----------------------------------------------+-----+
+[info] |NULL                                          |1719 |
+[info] |Liberty Healthcare and Rehabilitation Services|1108 |
+[info] |The Job Network                               |1003 |
+[info] |J. Galt                                       |604  |
+[info] |TEKsystems                                    |529  |
+[info] |Lowe's Companies, Inc.                        |527  |
+[info] |Ingersoll Rand                                |517  |
+[info] |Capital One                                   |496  |
+[info] |Cogent Communications                         |476  |
+[info] |Insight Global                                |418  |
+[info] |Dice                                          |415  |
+[info] |Wells Fargo                                   |388  |
+[info] |Circle K                                      |381  |
+[info] |Amazon                                        |343  |
+[info] |Macy's                                        |333  |
+[info] |Millennium Recruiting, Inc.                   |329  |
+[info] |Solomon Page                                  |326  |
+[info] |Apex Systems                                  |325  |
+[info] |VolunteerMatch                                |322  |
+[info] |CareerStaff Unlimited                         |319  |
+[info] +----------------------------------------------+-----+
+[info] only showing top 20 rows
+[info] ===== (7) TOP TITLES =====
+[info] +-------------------------------+-----+
+[info] |title                          |count|
+[info] +-------------------------------+-----+
+[info] |Sales Manager                  |673  |
+[info] |Customer Service Representative|373  |
+[info] |Project Manager                |354  |
+[info] |Administrative Assistant       |254  |
+[info] |Senior Accountant              |238  |
+[info] |Executive Assistant            |228  |
+[info] |Salesperson                    |211  |
+[info] |Registered Nurse               |210  |
+[info] |Receptionist                   |204  |
+[info] |Staff Accountant               |200  |
+[info] |Account Executive              |195  |
+[info] |Retail Sales Associate         |190  |
+[info] |Sales Associate                |189  |
+[info] |Software Engineer              |181  |
+[info] |Controller                     |175  |
+[info] |Account Manager                |171  |
+[info] |Store Manager                  |166  |
+[info] |Senior Software Engineer       |162  |
+[info] |ASSISTANT STORE MANAGER        |161  |
+[info] |Assistant Manager              |161  |
+[info] +-------------------------------+-----+
+[info] only showing top 20 rows
+[info] ===== (8) NUMERIC SUMMARY (Spark describe) =====
+[info] +-------+-----------------+-----------------+------------------+------------------+------------------+
+[info] |summary|min_salary       |max_salary       |normalized_salary |views             |applies           |
+[info] +-------+-----------------+-----------------+------------------+------------------+------------------+
+[info] |count  |29793            |29793            |36073             |122160            |23320             |
+[info] |mean   |64910.84743362558|91939.42346088018|205327.03684958222|14.618246561886052|10.591981132075471|
+[info] |stddev |495973.7935044483|701110.1386217632|5097626.762136144 |85.90359783955019 |29.0473946213498  |
+[info] |min    |1.0              |1.0              |0.0               |1.0               |1.0               |
+[info] |max    |8.5E7            |1.2E8            |5.356E8           |9975.0            |967.0             |
+[info] +-------+-----------------+-----------------+------------------+------------------+------------------+
+[info] ===== (9) SALARY SANITY CHECKS =====
+[info] Rows where min_salary > max_salary: 0
+[info] ===== (10) PAY PERIOD COUNTS WITH SALARY PRESENT =====
+[info] +----------+-----+
+[info] |pay_period|count|
+[info] +----------+-----+
+[info] |YEARLY    |20628|
+[info] |HOURLY    |14741|
+[info] |MONTHLY   |518  |
+[info] |WEEKLY    |177  |
+[info] |BIWEEKLY  |9    |
+[info] +----------+-----+
+[info] ===== (11) SALARY BY WORK TYPE (avg normalized_salary) =====
+[info] +-------------------+-----+---------------------+------------------------+---------------------+
+[info] |formatted_work_type|rows |avg_normalized_salary|median_normalized_salary|max_normalized_salary|
+[info] +-------------------+-----+---------------------+------------------------+---------------------+
+[info] |Full-time          |29133|220118.6463477844    |84150.0                 |5.356E8              |
+[info] |Contract           |3849 |101242.28073135877   |95680.0                 |5314400.0            |
+[info] |Part-time          |2304 |90624.79543836805    |42494.4                 |6.4896E7             |
+[info] |Temporary          |394  |72514.57055837565    |56160.0                 |468000.0             |
+[info] |Internship         |247  |1440963.9289068826   |45760.0                 |4.7179392E7          |
+[info] |Other              |138  |79242.12144927538    |57200.0                 |520000.0             |
+[info] |Volunteer          |8    |17545.625            |0.0                     |50000.0              |
+[info] +-------------------+-----+---------------------+------------------------+---------------------+
+[info] ===== (12) TOP LOCATIONS BY avg normalized_salary (min 200 rows) =====
+[info] +-------------------------------+----+---------------------+------------------------+
+[info] |location                       |rows|avg_normalized_salary|median_normalized_salary|
+[info] +-------------------------------+----+---------------------+------------------------+
+[info] |Dallas, TX                     |297 |1911193.8567340064   |92000.0                 |
+[info] |Houston, TX                    |351 |1725567.1779059828   |85000.0                 |
+[info] |New York, United States        |278 |144112.2449640288    |122500.0                |
+[info] |California, United States      |201 |142263.07164179103   |114138.0                |
+[info] |San Jose, CA                   |236 |140638.39406779662   |137850.0                |
+[info] |San Francisco, CA              |403 |138033.74533498756   |130500.0                |
+[info] |Seattle, WA                    |431 |126693.12418793501   |125000.0                |
+[info] |New York City Metropolitan Area|453 |124891.7037527594    |111562.5                |
+[info] |New York, NY                   |1512|123518.89357142855   |110000.0                |
+[info] |United States                  |2608|122716.28691717793   |113810.0                |
+[info] |Boston, MA                     |329 |114847.50010638297   |105000.0                |
+[info] |Chicago, IL                    |464 |112837.3784051724    |100000.0                |
+[info] |Charlotte, NC                  |245 |110808.28840816325   |107500.0                |
+[info] |Washington, DC                 |300 |109907.4259          |95000.0                 |
+[info] |Los Angeles, CA                |529 |107052.89189981094   |93600.0                 |
+[info] |Atlanta, GA                    |340 |105388.92601470588   |95000.0                 |
+[info] |Austin, TX                     |280 |104813.151875        |97250.0                 |
+[info] |San Diego, CA                  |388 |94477.14210051546    |84000.0                 |
+[info] |Denver, CO                     |407 |91058.56723587228    |79100.0                 |
+[info] |Phoenix, AZ                    |300 |88158.48213333334    |80080.0                 |
+[info] +-------------------------------+----+---------------------+------------------------+
+[info] only showing top 20 rows
+[info] ===== (13) VIEWS / APPLIES QUICK LOOK =====
+[info] +------------------+-------------------+
+[info] |views_percentiles |applies_percentiles|
+[info] +------------------+-------------------+
+[info] |[4.0, 23.0, 177.0]|[3.0, 24.0, 132.0] |
+[info] +------------------+-------------------+
+[info] ===== (14) POSTS BY MONTH (listed_time) =====
+[info] +------------+------+
+[info] |listed_month|count |
+[info] +------------+------+
+[info] |2024-03     |1     |
+[info] |2024-04     |123848|
+[info] +------------+------+
+[info] ===== (15) REMOTE ALLOWED DISTRIBUTION (if present) =====
+[info] +--------------+------+
+[info] |remote_allowed|count |
+[info] +--------------+------+
+[info] |NULL          |108603|
+[info] |1.0           |15246 |
+[info] +--------------+------+
+[info] ===== (16) SKILLS_DESC BASIC STATS =====
+[info] +--------------------+----------------------+----------------------+
+[info] |non_null_skills_desc|avg_skills_desc_length|max_skills_desc_length|
+[info] +--------------------+----------------------+----------------------+
+[info] |2439                |204.89872898728987    |3602                  |
+[info] +--------------------+----------------------+----------------------+
+[info] ===== (17) TOP 'SKILLS' TOKENS (simple split) =====
+[info] +-------------------------------------------------------------------+-----+
+[info] |skill_token                                                        |count|
+[info] +-------------------------------------------------------------------+-----+
+[info] |people skills                                                      |74   |
+[info] |healthcare                                                         |66   |
+[info] |hospice care                                                       |60   |
+[info] |patient care                                                       |56   |
+[info] |verbal / written communication                                     |53   |
+[info] |fundraising                                                        |53   |
+[info] |csr / volunteer coordination                                       |42   |
+[info] |religion                                                           |42   |
+[info] |color                                                              |41   |
+[info] |national origin                                                    |41   |
+[info] |this position requires the following skills: community outreach    |40   |
+[info] |sexual orientation                                                 |40   |
+[info] |community outreach                                                 |38   |
+[info] |disaster response                                                  |38   |
+[info] |relationship building                                              |38   |
+[info] |networking                                                         |38   |
+[info] |this position requires the following skills: elder care            |35   |
+[info] |public relations                                                   |34   |
+[info] |organization                                                       |29   |
+[info] |age                                                                |28   |
+[info] |sql                                                                |27   |
+[info] |marketing & communications (mar/com)                               |27   |
+[info] |this position requires the following skills: animal care / handling|27   |
+[info] |dental                                                             |27   |
+[info] |animal therapy                                                     |26   |
+[info] |this position requires the following skills: customer service      |26   |
+[info] |this position requires the following skills: advocacy              |26   |
+[info] |java                                                               |26   |
+[info] |multi-tasking                                                      |24   |
+[info] |teaching / instruction                                             |23   |
+[info] +-------------------------------------------------------------------+-----+
+[info] only showing top 30 rows
