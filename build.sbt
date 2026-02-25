@@ -8,8 +8,7 @@ lazy val root = (project in file("."))
       "org.apache.spark" %% "spark-sql" % "3.5.1",
       "org.scalameta" %% "munit" % "1.0.0" % Test
     ),
-
-    // ✅ FIX for Java 21 module access (make javaOptions apply)
+    Compile / mainClass := Some("FullPipeline"),
     Compile / run / fork := true,
     Compile / run / javaOptions ++= Seq("--add-exports=java.base/sun.nio.ch=ALL-UNNAMED")
   )
