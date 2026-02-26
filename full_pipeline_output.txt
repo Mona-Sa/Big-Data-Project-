@@ -240,18 +240,11 @@ application_type, application_url, applies, closed_time, company_id, company_nam
   Rows after: 123849
 
 ----- STEP 3: FILL MISSING CATEGORICAL VALUES -----
-<<<<<<< HEAD
   Filled: formatted_experience_level, formatted_work_type, company_name,
           pay_period, currency, compensation_type, application_url, posting_domain → 'Unknown'
 
 ----- STEP 4: FILL MISSING NUMERIC VALUES -----
   Filled: remote_allowed, views, applies, zip_code, fips, company_id → 0.0
-=======
-  Filled: formatted_experience_level, formatted_work_type ? 'Unknown'
-
------ STEP 4: FILL MISSING NUMERIC VALUES -----
-  Filled: remote_allowed, views, applies ? 0.0
->>>>>>> 52abf3f13576a53d7b838a7b3a0a31e83eea6223
 
 ----- STEP 5: REMOVE SALARY OUTLIERS -----
   Keeping: normalized_salary between 10,000 and 1,000,000 (or null)
@@ -308,7 +301,6 @@ application_type, application_url, applies, closed_time, company_id, company_nam
 ----- REMOTE DISTRIBUTION AFTER CLEANING -----
   0.0        108,225
   1.0        15,169
-<<<<<<< HEAD
 
 ============================================================
   PART 3: SAVE CLEAN DATA TO CSV
@@ -317,5 +309,3 @@ application_type, application_url, applies, closed_time, company_id, company_nam
   Saving clean data to: src/main/resources/cleaned_linkedin_jobs.csv
   Done! CSV saved as: src/main/resources/cleaned_linkedin_jobs.csv
   Rows saved: 123394
-=======
->>>>>>> 52abf3f13576a53d7b838a7b3a0a31e83eea6223
