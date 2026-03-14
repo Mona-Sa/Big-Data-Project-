@@ -241,17 +241,17 @@ application_type, application_url, applies, closed_time, company_id, company_nam
 
 ----- STEP 3: FILL MISSING CATEGORICAL VALUES -----
   Filled: formatted_experience_level, formatted_work_type, company_name,
-          pay_period, currency, compensation_type, application_url, posting_domain â†’ 'Unknown'
+          pay_period, currency, compensation_type, application_url, posting_domain ? 'Unknown'
 
 ----- STEP 4: FILL MISSING NUMERIC VALUES -----
-  Filled: remote_allowed, views, applies, zip_code, fips, company_id â†’ 0.0
+  Filled: remote_allowed, views, applies, zip_code, fips, company_id ? 0.0
 
 ----- STEP 5: REMOVE SALARY OUTLIERS -----
   Keeping: normalized_salary between 10,000 and 1,000,000 (or null)
   Rows after: 123394
 
------ STEP 6: FILL MISSING SALARY VALUES WITH MEDIAN -----
-  normalized_salary median = 82500.00
+----- STEP 6: FILL MISSING SALARY VALUES (normalized -> 0, min/max -> median) -----
+  normalized_salary nulls -> 0.0
   min_salary median        = 62000.00
   max_salary median        = 82000.00
 
@@ -273,19 +273,19 @@ application_type, application_url, applies, closed_time, company_id, company_nam
 
 ----- SAMPLE CLEAN ROWS (10) -----
   [91700727] Economic Development and Planning Intern | Downtown Raleigh Alliance | Raleigh, NC | Internship | Unknown | salary=35360.0 | remote=0.0
-  [3379554375] Finishing Editor | Nebraska Public Media | Lincoln, Nebraska Me | Full-time | Unknown | salary=82500.0 | remote=0.0
-  [3884431655] Universal Banker  | Harmony Bank | Garland, TX | Part-time | Unknown | salary=82500.0 | remote=0.0
+  [3379554375] Finishing Editor | Nebraska Public Media | Lincoln, Nebraska Me | Full-time | Unknown | salary=0.0 | remote=0.0
+  [3884431655] Universal Banker  | Harmony Bank | Garland, TX | Part-time | Unknown | salary=0.0 | remote=0.0
   [3884434169] Sales Development Representative | Phreesia | Washington DC-Baltim | Full-time | Entry level | salary=62500.0 | remote=1.0
-  [3884436753] Bagger | Southeastern Grocers | St Augustine, FL | Full-time | Entry level | salary=82500.0 | remote=0.0
-  [3884437919] Vetco Veterinary Assistant P/T | Petco | Foxborough (Foxboro) | Part-time | Entry level | salary=82500.0 | remote=0.0
-  [3884444185] Electrical Foreman - Special Projects | Weifield Group Contractin | Killeen, TX | Full-time | Entry level | salary=82500.0 | remote=0.0
-  [3884829058] Supervisor | Capstone Logistics, LLC | Cleveland, OH | Full-time | Mid-Senior level | salary=82500.0 | remote=0.0
+  [3884436753] Bagger | Southeastern Grocers | St Augustine, FL | Full-time | Entry level | salary=0.0 | remote=0.0
+  [3884437919] Vetco Veterinary Assistant P/T | Petco | Foxborough (Foxboro) | Part-time | Entry level | salary=0.0 | remote=0.0
+  [3884444185] Electrical Foreman - Special Projects | Weifield Group Contractin | Killeen, TX | Full-time | Entry level | salary=0.0 | remote=0.0
+  [3884829058] Supervisor | Capstone Logistics, LLC | Cleveland, OH | Full-time | Mid-Senior level | salary=0.0 | remote=0.0
   [3884833059] Complex Inforce Processor | Equitable | Syracuse, NY | Full-time | Entry level | salary=53000.0 | remote=0.0
-  [3884838245] LPN / Licensed Practical Nurse Home Heal | Ascension at Home | Indianapolis, IN | Full-time | Entry level | salary=82500.0 | remote=0.0
+  [3884838245] LPN / Licensed Practical Nurse Home Heal | Ascension at Home | Indianapolis, IN | Full-time | Entry level | salary=0.0 | remote=0.0
 
 ----- SALARY STATS AFTER CLEANING -----
-  Count : 123394
-  Mean  : 86567.79
+  Count : 35618
+  Mean  : 96592.35
   Min   : 10000.0
   Max   : 960000.0
 
@@ -303,9 +303,92 @@ application_type, application_url, applies, closed_time, company_id, company_nam
   1.0        15,169
 
 ============================================================
-  PART 3: SAVE CLEAN DATA TO CSV
+  SAVE CLEAN DATA TO CSV
 ============================================================
 
   Saving clean data to: src/main/resources/cleaned_linkedin_jobs.csv
   Done! CSV saved as: src/main/resources/cleaned_linkedin_jobs.csv
   Rows saved: 123394
+
+============================================================
+  PART 3: DATA REDUCTION PIPELINE
+============================================================
+
+----- STEP 1: LOAD CLEANED DATA -----
+  Rows before reduction: 123394
+  Columns before reduction: 31
+
+----- STEP 2: DROP IRRELEVANT METADATA COLUMNS -----
+  Dropped: URLs, technical identifiers, and timestamp metadata
+  Columns after Step 2: 8
+
+----- STEP 3: DROP REDUNDANT SALARY COLUMNS -----
+  Dropped: min_salary, max_salary
+  Columns after Step 3: 6
+
+----- STEP 4: SIMPLIFY LOCATION TO STATE LEVEL -----
+  Extracted state from location column
+  Columns after Step 4: 6
+
+----- STEP 5: REMOVE ROWS WITHOUT VALID SALARY -----
+  Rows after removing zero salaries: 35618
+
+----- REDUCTION SUMMARY -----
+  Rows before   : 123,394
+  Rows after    : 35,618
+  Columns before: 31
+  Columns after : 6
+
+----- SAMPLE REDUCED ROWS (10) -----
+  Economic Development and Planning I | NC | Internship | Unknown | salary=35360.0 | remote=0.0
+  Sales Development Representative | Washington DC-Baltimore Area | Full-time | Entry level | salary=62500.0 | remote=1.0
+  Complex Inforce Processor | NY | Full-time | Entry level | salary=53000.0 | remote=0.0
+  REMOTE – Market Research Competitiv | CT | Contract | Unknown | salary=176800.0 | remote=1.0
+  Director of Administrative Operatio | NH | Full-time | Director | salary=79500.0 | remote=0.0
+  Account Executive - Commercial | United States | Full-time | Unknown | salary=158750.0 | remote=1.0
+  Dental Hygienist - choose your own  | VA | Full-time | Entry level | salary=135200.0 | remote=0.0
+  RN Wound Specialist - Home Health | WA | Full-time | Mid-Senior level | salary=119485.6 | remote=0.0
+  Marketing Operations Manager (Funne | AZ | Full-time | Unknown | salary=107500.0 | remote=0.0
+  AMC - Travel RN - Neuro ICU/SICU -  | NY | Contract | Mid-Senior level | salary=159544.32 | remote=0.0
+
+============================================================
+  SAVE REDUCED DATA TO CSV
+============================================================
+
+  Saving reduced data to: src/main/resources/reduced_linkedin_jobs.csv
+  Done! CSV saved as: src/main/resources/reduced_linkedin_jobs.csv
+  Rows saved: 35618
+
+============================================================
+  PART 4: FEATURE TRANSFORMATION
+============================================================
+  Rows loaded for transformation: 35618
+  Columns: title, formatted_work_type, remote_allowed, formatted_experience_level, normalized_salary, state
+  Column 'title' transformed -> 'title_idx_num'
+  Column 'state' transformed -> 'state_idx_num'
+  Column 'formatted_work_type' transformed -> 'formatted_work_type_idx_num'
+  Column 'formatted_experience_level' transformed -> 'formatted_experience_level_idx_num'
+
+----- SAMPLE TRANSFORMED ROWS (10) -----
+  Economic Development | 0.0 | NC | 11.0 | Internship | 4.0 | Unknown | 2.0 | salary=35360.0 | remote=0.0
+  Sales Development Re | 56.0 | Washington DC-Baltimore Area | 48.0 | Full-time | 0.0 | Entry level | 1.0 | salary=62500.0 | remote=1.0
+  Complex Inforce Proc | 0.0 | NY | 2.0 | Full-time | 0.0 | Entry level | 1.0 | salary=53000.0 | remote=0.0
+  REMOTE – Market Rese | 0.0 | CT | 25.0 | Contract | 1.0 | Unknown | 2.0 | salary=176800.0 | remote=1.0
+  Director of Administ | 0.0 | NH | 39.0 | Full-time | 0.0 | Director | 4.0 | salary=79500.0 | remote=0.0
+  Account Executive -  | 0.0 | United States | 1.0 | Full-time | 0.0 | Unknown | 2.0 | salary=158750.0 | remote=1.0
+  Dental Hygienist - c | 549.0 | VA | 12.0 | Full-time | 0.0 | Entry level | 1.0 | salary=135200.0 | remote=0.0
+  RN Wound Specialist  | 0.0 | WA | 5.0 | Full-time | 0.0 | Mid-Senior level | 0.0 | salary=119485.6 | remote=0.0
+  Marketing Operations | 0.0 | AZ | 15.0 | Full-time | 0.0 | Unknown | 2.0 | salary=107500.0 | remote=0.0
+  AMC - Travel RN - Ne | 0.0 | NY | 2.0 | Contract | 1.0 | Mid-Senior level | 0.0 | salary=159544.32 | remote=0.0
+
+  Saving transformed data to: src/main/resources/transformed_linkedin_jobs.csv
+  Done! Transformed CSV saved as: src/main/resources/transformed_linkedin_jobs.csv
+  Rows saved: 35618
+
+============================================================
+  SAVE FIRST 20 ROWS SNAPSHOT
+============================================================
+
+  Saving first 20 rows snapshot to: src/main/resources/snapshot_first20_transformed.csv
+  Done! Snapshot saved as: src/main/resources/snapshot_first20_transformed.csv
+  Rows in snapshot: 20 (first rows of transformed data)
