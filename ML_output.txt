@@ -1,0 +1,25 @@
+======================================================================
+ 1: Feature Engineering & Data Preparation
+======================================================================
+
+----- STEP 1: LOAD & CLEAN DATASET -----
+  Total rows loaded  : 123394
+  Rows after filter  : 35615
+
+----- STEP 2: TRAIN / TEST SPLIT (80/20) -----
+  Training rows      : 28693
+  Test rows          : 6922
+
+----- STEP 3: PIPELINE CONSTRUCTION -----
+
+----- STEP 4: TRAINING THE MODEL -----
+
+----- STEP 5: MODEL EVALUATION -----
+======================================================================
+ MODEL PERFORMANCE RESULTS
+======================================================================
+  Root Mean Squared Error (RMSE): 53512.14
+  R-squared (R2) Score          : 0.2175
+======================================================================
+ 1 COMPLETE
+======================================================================

@@ -1,0 +1,146 @@
+======================================================================
+ TRANSFORMATION: filter  |  ACTIONS: count + first
+======================================================================
+TRANSFORMATION: filter
+Extract rows where remote_allowed = 1 (Remote Jobs Only)
+======================================================================
+Total jobs in dataset : 123,394
+Remote jobs (count)   : 15,168
+Remote percentage     : 12.3%
+
+ACTION: first — Sample Remote Job Record
+----------------------------------------------------------------------
+  title                               : Sales Development Representative
+  formatted_work_type                 : Full-time
+  remote_allowed                      : 1.0
+  formatted_experience_level          : Entry level
+  normalized_salary                   : 62500.0
+  salary_source                       : Original
+  state                               : Washington DC-Baltimore Area
+  title_idx_num                       : 65.0
+  state_idx_num                       : 51.0
+  formatted_work_type_idx_num         : 0.0
+  formatted_experience_level_idx_num  : 1.0
+  salary_source_idx_num               : 1.0
+======================================================================
+INTERPRETATION:
+The filter transformation isolates remote job postings,
+revealing that only ~12.3% of LinkedIn jobs offer remote work.
+This helps us understand how common flexible work options are
+before modeling salary patterns across roles and locations.
+======================================================================
+
+======================================================================
+ TRANSFORMATION: map  |  ACTION: take(10)
+======================================================================
+TRANSFORMATION: map
+Each row -> (State, SalaryTier, WorkType, Salary)
+======================================================================
+ACTION: take(10) — Preview first 10 mapped records
+  State                               Tier   Work Type    Salary
+----------------------------------------------------------------------
+  NC                                  Low    Internship   $35360
+  Nebraska Metropolitan Area          Mid    Full-time    $82500
+  TX                                  Mid    Part-time    $82500
+  Washington DC-Baltimore Area        Mid    Full-time    $62500
+  FL                                  Mid    Full-time    $82500
+  MA                                  Mid    Part-time    $82500
+  TX                                  Mid    Full-time    $82500
+  OH                                  Mid    Full-time    $82500
+  NY                                  Low    Full-time    $53000
+  IN                                  Mid    Full-time    $82500
+======================================================================
+INTERPRETATION:
+The map transformation derives a salaryTier feature from raw
+salary values, helping us compare compensation patterns across
+locations and work types in a cleaner and more interpretable way.
+======================================================================
+
+======================================================================
+ TRANSFORMATION: groupByKey  |  ACTION: reduce
+======================================================================
+TRANSFORMATION: groupByKey
+Group job titles by formatted_experience_level
+======================================================================
+Grouped job-title preview by experience level
+----------------------------------------------------------------------
+  Associate          ->  6357 unique titles | Sample: (MTA) CAD Drafter | (RN) Clinical Case Manage | (USA) Staff Pharmacist
+  Director           ->  2750 unique titles | Sample: (Executive) Director, Meg | (Hybrid) Sr/Lead/Principa | (Northeast) Remote openin
+  Entry level        -> 21494 unique titles | Sample: # Residential Direct Supp | #13437 - Technical Salesf | #13476 Manual Tester
+  Executive          ->   873 unique titles | Sample: (USA) GM Coach | 2024-2025 - GENERAL RESOU | 2024-2025 - GENERAL RESOU
+  Internship         ->  1070 unique titles | Sample: (USA) Coach/Ops Mgr Train | (USA) Pharmacy Grad Inter | (USA) Pharmacy Grad Inter
+  Mid-Senior level   -> 26079 unique titles | Sample: $10k Sign -On-EXECUTIVE C | $170k-$210k – IAM Enginee | $21.20 Carroll, IA - 1st 
+  Unknown            -> 18765 unique titles | Sample: ![ | # Selling and Support Cap | $$CNAs Needed in Alexandr
+
+ACTION: reduce — Find record with maximum normalized_salary
+----------------------------------------------------------------------
+  Maximum normalized salary : $960000
+  Title                     : Modernization Software Dev
+  State                     : WI
+  Experience Level          : Associate
+  Work Type                 : Full-time
+======================================================================
+INTERPRETATION:
+The groupByKey transformation shows how different job titles
+are distributed across experience levels, which helps explain
+why salary varies by seniority and role. The reduce action
+identifies the highest salary record in the dataset, giving us
+a clear upper bound for salary prediction and a concrete example
+of the role-location combination associated with top pay.
+======================================================================
+
+======================================================================
+ TRANSFORMATION: reduceByKey  |  ACTION: saveAsTextFile
+======================================================================
+TRANSFORMATION: reduceByKey
+Compute average normalized_salary per state
+======================================================================
+Preview: Average salary per state (top 10)
+----------------------------------------------------------------------
+  Massachusetts                       $80826
+  Des Moines Metropolitan Area        $84656
+  Brazil                              $82500
+  Pennsylvania                        $82500
+  QC                                  $82500
+  IA                                  $80305
+  Greater Montgomery Area             $82500
+  Louisiana Metropolitan Area         $107778
+  Greater Jefferson City Area         $82500
+  Illinois Metropolitan Area          $70455
+
+ACTION: saveAsTextFile — Results saved to: src/main/resources/reduceByKey_avg_salary_by_state.csv
+======================================================================
+INTERPRETATION:
+The reduceByKey transformation aggregates salary data by state,
+revealing geographic compensation patterns across the US.
+This supports salary prediction by confirming that location
+is a meaningful factor in determining expected compensation.
+======================================================================
+
+======================================================================
+ TRANSFORMATION: sortByKey  |  ACTION: saveAsTextFile
+======================================================================
+TRANSFORMATION: sortByKey
+Sort states by average salary (descending)
+======================================================================
+Top 10 states by average salary:
+----------------------------------------------------------------------
+  Illinois                            $278750
+  Greater Burlington Area             $254340
+  Boise Metropolitan Area             $130625
+  San Francisco Bay Area              $119270
+  Greater Colorado Springs Area       $114361
+  La Crosse-Onalaska Area             $109375
+  Louisiana Metropolitan Area         $107778
+  Greater Augusta Area                $107083
+  Cape Coral Metropolitan Area        $106875
+  New York City Metropolitan Area     $106076
+
+ACTION: saveAsTextFile — Results saved to: src/main/resources/sortByKey_top_states_by_salary.csv
+======================================================================
+INTERPRETATION:
+The sortByKey transformation ranks states by average salary,
+identifying the highest-paying locations in the dataset.
+This supports salary prediction by confirming that geographic
+location is a strong determinant of compensation.
+======================================================================

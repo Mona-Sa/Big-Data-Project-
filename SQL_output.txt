@@ -1,0 +1,22 @@
+Loading dataset and registering temporary view...
+Dataset loaded: 123394 rows, 12 columns
+Temporary view registered as: jobs
+Columns: title, formatted_work_type, remote_allowed, formatted_experience_level, normalized_salary, salary_source, state, title_idx_num, state_idx_num, formatted_work_type_idx_num, formatted_experience_level_idx_num, salary_source_idx_num
+======================================================================
+
+======================================================================
+ QUERY 1: Average Salary per Experience Level (GROUP BY + HAVING)
+======================================================================
+Question: What is the average normalized salary per experience
+level, considering only experience levels with more than 100 job postings?
+
+  Experience Level            Avg Salary  Job Count
+-------------------------------------------------------
+  Executive                    119887.79       1221
+  Director                     113012.38       3742
+  Mid-Senior level              92305.27      41332
+  Unknown                       85932.07      29296
+  Associate                      82829.4       9743
+  Entry level                    78229.1      36619
+  Internship                    75042.66       1436
+======================================================================
